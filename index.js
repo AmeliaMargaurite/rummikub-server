@@ -30,3 +30,6 @@ app.on("upgrade", async function upgrade(request, socket, head) {
 		wsServer.emit("connection", ws, request);
 	});
 });
+
+const PORT = process.env.PORT || 9000;
+app.listen(PORT);
