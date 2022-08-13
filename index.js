@@ -3,9 +3,9 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
-app.use("/", express.static(path.resolve(__dirname, "../client")));
+// app.use("/", express.static(path.resolve(__dirname, "../client")));
 
-const myServer = app.listen(9876);
+// const myServer = app.listen(9876);
 
 const wsServer = new WebSocket.Server({
 	noServer: true,
@@ -23,7 +23,7 @@ wsServer.on("connection", function (ws) {
 	});
 });
 
-myServer.on("upgrade", async function upgrade(request, socket, head) {
+app.on("upgrade", async function upgrade(request, socket, head) {
 	// math.random to reject half? maybe just a section to set up own reject scenario
 
 	wsServer.handleUpgrade(request, socket, head, function done(ws) {
