@@ -7,6 +7,11 @@ const path = require("path");
 
 // const myServer = app.listen(9876);
 
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	next();
+});
+
 const wsServer = new WebSocket.Server({
 	noServer: true,
 });
