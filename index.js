@@ -3,9 +3,14 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
-app.use("/", express.static(path.resolve(__dirname)));
+app.use("/", express.static(path.resolve(__dirname, "/server")));
 
 // const myServer = app.listen(9876);
+
+// app.use((req, res, next) => {
+// 	res.header("Access-Control-Allow-Origin", "*");
+// 	next();
+// });
 
 const wsServer = new WebSocket.Server({
 	noServer: true,
