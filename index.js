@@ -1,22 +1,19 @@
 const WebSocket = require("ws");
 const express = require("express");
+const http = require("http");
+
+// https://lekkimworld.com/2017/11/16/websockets-in-an-express-node-js-app-on-heroku/
+
+const PORT = process.env.PORT || 9000;
 const app = express();
-const path = require("path");
 
-app.use("/", express.static(path.resolve(__dirname, "/server")));
-
-// const myServer = app.listen(9876);
-
-// app.use((req, res, next) => {
-// 	res.header("Access-Control-Allow-Origin", "*");
-// 	next();
-// });
-
-const wsServer = new WebSocket.Server({
-	noServer: true,
+const httpServer = http.createServer(app);
+const wss = new WebSocket.Server({
+	server: httpServer,
 });
+httpServer.listen(port);
 
-wsServer.on("connection", function (ws) {
+wss.on("connection", function (ws) {
 	console.log("meep");
 	ws.on("message", function (msg) {
 		console.log(msg);
@@ -35,6 +32,3 @@ app.on("upgrade", async function upgrade(request, socket, head) {
 		wsServer.emit("connection", ws, request);
 	});
 });
-
-const PORT = process.env.PORT || 9000;
-app.listen(PORT);
