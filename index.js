@@ -11,7 +11,7 @@ const httpServer = http.createServer(app);
 const wss = new WebSocket.Server({
 	server: httpServer,
 });
-httpServer.listen(port);
+httpServer.listen(PORT);
 
 wss.on("connection", function (ws) {
 	console.log("meep");
