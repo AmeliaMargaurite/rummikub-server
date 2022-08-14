@@ -8,16 +8,16 @@ const PORT = process.env.PORT || 9000;
 const app = express();
 
 const httpServer = http.createServer(app);
-const wss = new WebSocket.Server({
+const wssServer = new WebSocket.Server({
 	server: httpServer,
 });
 httpServer.listen(PORT);
 
-wss.on("connection", function (ws) {
+wssServer.on("connection", function (ws) {
 	console.log("meep");
 	ws.on("message", function (msg) {
 		console.log(msg);
-		wsServer.clients.forEach(function each(client) {
+		wssServer.clients.forEach(function each(client) {
 			if (client.readyState === WebSocket.OPEN) {
 				client.send(msg.toString());
 			}
@@ -28,7 +28,7 @@ wss.on("connection", function (ws) {
 app.on("upgrade", async function upgrade(request, socket, head) {
 	// math.random to reject half? maybe just a section to set up own reject scenario
 
-	wsServer.handleUpgrade(request, socket, head, function done(ws) {
-		wsServer.emit("connection", ws, request);
+	wssServer.handleUpgrade(request, socket, head, function done(ws) {
+		wssServer.emit("connection", ws, request);
 	});
 });
